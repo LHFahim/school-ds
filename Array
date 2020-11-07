@@ -1,0 +1,61 @@
+#include <iostream>
+#define MAX 50
+using namespace std;
+int main()
+{
+    cout<<"Insertion at the beginning"<<endl;
+    int nums[MAX]={1,2,3,4};
+    int element=10; // element to insert
+    int n=4; // elements in the array
+
+    cout<<"Before insertion: ";
+    for(int i=0;i<n;i++)
+        cout<<nums[i]<<" ";
+
+    for(int i=n; i>=0; i--)
+        nums[i+1] = nums[i];  //moving each element to the right
+
+    nums[0] = element; // inserting the element
+    n += 1; //increasing the size
+
+    cout<<endl<<"After insertion: ";
+    for(int i=0; i<n; i++)
+        cout<<nums[i]<<" ";
+
+    /* now let's say we want to insert
+    pos element at a given index in the array */
+    cout<<endl<<endl<<"Insertion at a given index"<<endl;
+    int pos=3;
+    element = 50;
+    for(int i=n; i>=pos; i--)
+        nums[i+1]=nums[i];
+
+    nums[pos] = element; //inserting at the given index
+    n += 1; //size increased by 1
+
+    cout<<"After insertion: ";
+    for(int i=0; i<n; i++)
+        cout<<nums[i]<<" ";
+
+    /* what if we want to delete an
+    element from a given index? */
+    cout<<endl<<endl<<"Deletion from a given index"<<endl;
+    int delpos = 1;
+    for(int i=delpos; i<=n; i++)
+        nums[i] = nums[i+1];
+
+    n -= 1; //an element has been deleted, so size decreased by 1
+    cout<<"After Deletion: ";
+    for(int i=0;i<n;i++)cout<<nums[i]<<" ";
+
+    /* to search for an element in an array
+    we will run and loop and see if any element
+    matches with our target element */
+    cout<<endl<<endl<<"Search an element in the array"<<endl;
+    int target = 50; // the element we want to search
+    for(int i=0 ;i<n; i++)
+        if(nums[i] == target)
+            cout<<"Match found! "<<nums[i]<<" is at position "<<i+1<<endl;
+
+    return 0;
+}
