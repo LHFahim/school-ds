@@ -1,0 +1,95 @@
+#include <iostream>
+#include <stdlib.h>
+#define MAX 5
+using namespace std;
+struct Node{
+    int data;
+    Node* link;
+};
+Node* head;
+
+void display(){
+    Node* temp = head;
+    while(temp!=NULL){
+        cout<<temp->data<<" ";
+        temp = temp->link;
+    }
+    cout<<endl;
+}
+void insert(int value){
+    Node* temp = (Node*)malloc(sizeof(Node));
+    temp->data = value;
+    temp->link = NULL;
+    if(head==NULL){
+        head = temp;
+    }
+    else{
+        Node* t = head;
+        while(t->link!=NULL){
+            t = t->link;
+        }
+        t->link = temp;
+    }
+}
+void insertAtFirst(int value){
+    Node* temp = (Node*)malloc(sizeof(Node));
+    temp->data = value;
+    temp->link = head;
+    head = temp;
+}
+void sortedInsert(int value){
+    Node* temp = (Node*)malloc(sizeof(Node));
+    temp->data = value;
+    if(head==NULL || temp->data < head->data){
+        temp->link = NULL;
+        head = temp;
+    }
+    else{
+        Node* pred = head;
+        Node* p = head->link;
+        while(p!=NULL && temp->data > p->data){
+            pred = p;
+            p = p->link;
+        }
+        pred->link = temp;
+        temp->link = p;
+    }
+}
+void Delete(int pos){
+    if(pos==1){
+        Node* temp = head;
+        head = head->link;
+        free(temp);
+    }
+    else{
+        Node* temp1 = head;
+        for(int i=1; i<=pos-2; i++){
+            temp1 = temp1->link;
+        }
+        Node* temp2 = temp1->link;
+        temp1->link = temp2->link;
+        free(temp2);
+    }
+}
+int main()
+{
+    insert(10);
+    insert(20);
+    insert(25);
+    insert(35);
+
+    /*insertAtFirst(1);
+    insertAtFirst(2);
+    insertAtFirst(3);
+    insertAtFirst(4);*/
+
+    display();
+    sortedInsert(30);
+    display();
+    sortedInsert(40);
+    display();
+    sortedInsert(12);
+    sortedInsert(22);
+    display();
+    return 0;
+}
