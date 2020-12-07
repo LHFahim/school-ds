@@ -1,0 +1,94 @@
+#include <iostream>
+using namespace std;
+struct Nodes{
+    int data;
+    Nodes* link;
+};
+Nodes* top = NULL;
+
+void push(int);
+void pop();
+void display();
+void peek();
+void size();
+void search(int);
+
+int main(){
+    push(1);
+    push(4);
+    push(2);
+    push(10);
+    push(6);
+    display();
+    search(10);
+    pop();
+    display();
+    peek();
+    size();
+    return 0;
+}
+
+void push(int value){
+    Nodes* temp = (Nodes*)malloc(sizeof(Nodes));
+    temp->data = value;
+    temp->link = top;
+    top = temp;
+}
+
+void pop(){
+    Nodes* temp = top;
+    int info;
+    if(temp != NULL){
+        info = top->data;
+        top = top->link;
+        free(temp);
+    }
+    else cout<<"Stack underflow!"<<endl;
+
+    cout<<"You have popped: "<<info<<endl;
+}
+
+void display(){
+    Nodes* temp = top;
+    if(top!=NULL){
+        cout<<"Stack contains: ";
+        while(temp != NULL){
+            cout<<temp->data<<" ";
+            temp = temp->link;
+        }
+        cout<<endl;
+    }
+    else cout<<"Stack underflow!"<<endl;
+}
+void peek(){
+    Nodes* temp = top;
+    if(temp != NULL){
+        cout<<"Top value is: "<<temp->data<<endl;
+    }
+    else cout<<"Stack underflow!"<<endl;
+}
+
+void size(){
+    Nodes* temp = top;
+    int cnt = 0;
+    if(top != NULL){
+        while(temp != NULL){
+            cnt++;
+            temp = temp->link;
+        }
+    }
+    cout<<"Size of the stack is: "<<cnt<<endl;
+}
+
+void search(int x){
+    Nodes* temp = top;
+    bool found = false;
+    if(top != NULL){
+        while(temp != NULL){
+            if(temp->data == x)found=true;
+            temp = temp->link;
+        }
+    }
+    if(found)cout<<x<<" is found!"<<endl;
+    else cout<<x<<" is not found!"<<endl;
+}
