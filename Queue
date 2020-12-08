@@ -1,0 +1,93 @@
+#include <iostream>
+using namespace std;
+struct Nodes{
+    int data;
+    Nodes* link;
+};
+Nodes* front = NULL;
+Nodes* rear = NULL;
+
+void enqueue(int);
+void dequeue();
+void display();
+void peek();
+void size();
+void search(int);
+
+int main(){
+    enqueue(1);
+    enqueue(10);
+    enqueue(5);
+    enqueue(22);
+    enqueue(30);
+    display();
+    search(10);
+    dequeue();
+    display();
+    peek();
+    size();
+    return 0;
+}
+
+void enqueue(int value){
+    Nodes* temp = (Nodes*)malloc(sizeof(Nodes));
+    temp->data = value;
+    temp->link = NULL;
+
+    if(front == NULL)front = temp;
+    else rear->link = temp;
+    rear = temp;
+}
+
+void dequeue(){
+    Nodes* temp = front;
+    int info = temp->data;
+    front = front->link;
+    free(temp);
+    cout<<"You have popped: "<<info<<endl;
+}
+
+void display(){
+    Nodes* temp = front;
+    if(temp != NULL){
+        cout<<"Queue contains: ";
+        while(temp != NULL){
+            cout<<temp->data<<" ";
+            temp = temp->link;
+        }
+        cout<<endl;
+    }
+    else cout<<"Queue underflow!"<<endl;
+}
+void peek(){
+    Nodes* temp = front;
+    if(temp != NULL){
+        cout<<"Top value is: "<<temp->data<<endl;
+    }
+    else cout<<"Queue underflow!"<<endl;
+}
+
+void size(){
+    Nodes* temp = front;
+    int cnt = 0;
+    if(front != NULL){
+        while(temp != NULL){
+            cnt++;
+            temp = temp->link;
+        }
+    }
+    cout<<"Size of the Queue is: "<<cnt<<endl;
+}
+
+void search(int x){
+    Nodes* temp = front;
+    bool found = false;
+    if(front != NULL){
+        while(temp != NULL){
+            if(temp->data == x)found=true;
+            temp = temp->link;
+        }
+    }
+    if(found)cout<<x<<" is found!"<<endl;
+    else cout<<x<<" is not found!"<<endl;
+}
