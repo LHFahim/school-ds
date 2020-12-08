@@ -1,0 +1,109 @@
+#include <iostream>
+using namespace std;
+struct Nodes{
+    int data;
+    Nodes* link;
+};
+
+Nodes* rear = NULL;
+
+void enqueue(int);
+void dequeue();
+void display();
+void peek();
+void size();
+void search(int);
+
+int main(){
+    enqueue(1);
+    enqueue(10);
+    enqueue(5);
+    enqueue(22);
+    enqueue(30);
+    display();
+    search(10);
+    dequeue();
+    display();
+    peek();
+    size();
+    return 0;
+}
+
+void enqueue(int value){
+    Nodes* temp = (Nodes*)malloc(sizeof(Nodes));
+    temp->data = value;
+    if(rear == NULL){
+        rear = temp;
+        rear->link = rear;
+    }
+    else{
+        temp->link = rear->link;
+        rear->link = temp;
+        rear = temp;
+    }
+}
+
+void dequeue(){
+    Nodes* temp = rear;
+    int info;
+
+    if(rear->link == rear){
+        info = rear->data;
+        rear = NULL;
+        cout<<"No element in queue!"<<endl;
+    }
+    else{
+        info = rear->link->data;
+        temp = rear->link;
+        rear->link = rear->link->link;
+    }
+
+    free(temp);
+    cout<<"You have dequeued: "<<info<<endl;
+}
+
+void display(){
+    Nodes* temp = rear->link;
+    if(temp != NULL){
+        cout<<"Queue contains: ";
+        do{
+            cout<<temp->data<<" ";
+            temp = temp->link;
+        } while(temp !=  rear->link);
+        cout<<endl;
+    }
+
+    else cout<<"Queue underflow!"<<endl;
+}
+void peek(){
+    Nodes* temp = rear;
+    if(temp != NULL){
+        cout<<"Top value is: "<<rear->link->data<<endl;
+    }
+    else cout<<"Queue underflow!"<<endl;
+}
+
+void size(){
+    Nodes* temp = rear->link;
+    int cnt = 0;
+    if(rear != NULL){
+        do{
+            cnt++;
+            temp = temp->link;
+        } while(temp != rear->link);
+    }
+    cout<<"Size of the Queue is: "<<cnt<<endl;
+}
+
+void search(int x){
+    Nodes* temp = rear->link;
+    bool found = false;
+    if(rear != NULL){
+        do{
+            if(temp->data == x)found = true;
+            temp = temp->link;
+        }while(temp != rear->link);
+    }
+    if(found)cout<<x<<" is found!"<<endl;
+    else cout<<x<<" is not found!"<<endl;
+}
