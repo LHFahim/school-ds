@@ -1,0 +1,118 @@
+
+
+#include<bits/stdc++.h>
+using namespace std;
+
+#define endl '\n'
+#define optimize() ios_base::sync_with_stdio(0);cin.tie(0);cout.tie(0);
+
+int n, total_wt, total_tat;
+int waitTime[100], turnaround[100];
+
+struct Nodes{
+    int data;
+    Nodes* link;
+};
+Nodes* front = NULL;
+Nodes* rear = NULL;
+
+
+void enqueue(int);
+void display();
+
+
+void getwt();
+void gettat();
+int display_each();
+
+int main(){
+
+
+    waitTime[0] = 0;
+
+    cout<<"Enter the number of processes: ";
+    cin>>n;
+
+    cout<<endl;
+    for(int i=0; i<n; i++){
+
+        cout<<"Enter the burst time for process "<<i<<": ";
+        int burstTime; cin>>burstTime;
+        enqueue(burstTime);
+        if(i == 0)turnaround[0] = burstTime;
+    }
+
+    getwt();
+    gettat();
+
+    for(int i=1; i<n; i++)total_wt += waitTime[i];
+    for(int i=0; i<n; i++)total_tat += turnaround[i];
+
+    Nodes* dis = front;
+    cout << "PROCESS  "<< " BURST TIME  "<< " WAITING TIME  " << " TURNAROUND TIME\n";
+    for(int i=0; i<n; i++){
+        int temp = dis->data;
+        cout << "   P" << i << "\t\t"<< temp <<"\t    "<< waitTime[i] <<"\t\t  " << turnaround[i] <<endl;
+        dis = dis->link;
+    }
+
+
+
+
+    cout<<endl<<endl;
+
+    cout<<"Average waiting time: "<<fixed<<setprecision(6)<<(double)total_wt/n<<endl
+        <<"Average turnaround time: "<<fixed<<setprecision(6)<<(double)total_tat/n<<endl;
+
+    cout<<endl<<endl;
+    return 0;
+}
+
+void getwt(){
+    Nodes* temp1 = front->link;
+    Nodes* temp2 = front;
+    int pid = 1;
+
+    if(temp1 != NULL){
+        while(temp1 != NULL){
+            waitTime[pid] = waitTime[pid-1] + temp2->data;
+            temp1 = temp1->link;
+            temp2 = temp2->link;
+            pid++;
+        }
+        cout<<endl;
+    }
+    else cout<<"Queue underflow!"<<endl;
+}
+
+void gettat(){
+
+    Nodes* temp1 = front->link;
+
+    int pid = 1;
+
+    if(temp1 != NULL){
+        while(temp1 != NULL){
+            turnaround[pid] = waitTime[pid] + temp1->data;
+            temp1 = temp1->link;
+            pid++;
+        }
+        cout<<endl;
+    }
+    else cout<<"Queue underflow!"<<endl;
+}
+
+
+
+void enqueue(int value){
+    Nodes* temp = (Nodes*)malloc(sizeof(Nodes));
+    temp->data = value;
+    temp->link = NULL;
+
+    if(front == NULL)front = temp;
+    else rear->link = temp;
+    rear = temp;
+}
+
+
+
